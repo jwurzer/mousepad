@@ -1,5 +1,9 @@
 [![License](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://gitlab.xfce.org/apps/mousepad/-/blob/master/COPYING)
 
+# Modified version of mousepad 0.6.2 for macports
+
+* Based on release https://archive.xfce.org/src/apps/mousepad/0.6/mousepad-0.6.2.tar.bz2
+
 # mousepad
 
 Mousepad is a simple text editor for the [Xfce](https://www.xfce.org) desktop environment.
