@@ -1613,6 +1613,7 @@ mousepad_application_action_quit (GSimpleAction *action,
 {
   GList   *windows, *window;
   GAction *close;
+  MousepadWindow *mousepadWindow;
 
   /* block session handler */
   mousepad_history_session_set_quitting (TRUE);
@@ -1623,8 +1624,16 @@ mousepad_application_action_quit (GSimpleAction *action,
     {
       close = g_action_map_lookup_action (G_ACTION_MAP (window->data), "file.close-window");
       g_action_activate (close, NULL);
-      if (! mousepad_action_get_state_int32_boolean (close))
+      mousepadWindow = window->data;
+      /* calling mousepad_action_get_state_int32_boolean (close) is only allowed for
+       * this mousepad quartz version if the window is NOT closed. Otherwise the function
+       * mousepad_action_get_state_int32_boolean (close) will produce a seg fault.
+       * --> check if window exist
+       */
+      if (MOUSEPAD_IS_WINDOW(mousepadWindow) &&
+          ! mousepad_action_get_state_int32_boolean (close))
         {
+          /* --> closing cancelled --> window is NOT closed */
           /* unblock session handler and save session */
           mousepad_history_session_set_quitting (FALSE);
           mousepad_history_session_save ();
